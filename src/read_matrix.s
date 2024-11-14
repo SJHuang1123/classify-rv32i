@@ -1,5 +1,5 @@
 .globl read_matrix
-
+.import mul.s
 .text
 # ==============================================================================
 # FUNCTION: Binary Matrix File Reader

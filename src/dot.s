@@ -1,5 +1,4 @@
 .globl dot
-
 .text
 # =======================================================
 # FUNCTION: Strided Dot Product Calculator
