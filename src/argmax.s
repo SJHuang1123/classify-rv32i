@@ -32,8 +32,8 @@ argmax:
 loop_start:
     # TODO: Add your own implementation
     bge     t2, a1, end_argmax
-    lw      t3, 0(a0)
-    ble     t0, t3, loop_handle
+    lw      t3, 4(a0)
+    ble     t3, t0, loop_handle
     mv      t0, t3
     mv      t1, t2
 loop_handle:

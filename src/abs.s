@@ -20,9 +20,7 @@ abs:
     # Load number from memory
     lw t0 0(a0)
     bge t0, zero, done
-    srli    t1, t0, 31
-    beq     t1, zero, done
-    sub     t0, 0, t0
+    sub     t0, zero, t0
     sw      t0, 0(a0)
     # TODO: Add your own implementation
 
