@@ -116,7 +116,7 @@ inner_loop_start:
     
 inner_loop_end:
     # TODO: Add your own implementation
-    sll     s1, a2, 2
+    slli    s1, a2, 2
     add     s3, s3, s1
     addi    s0, s0, 1
     j       outer_loop_start
