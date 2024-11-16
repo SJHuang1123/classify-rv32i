@@ -1,5 +1,4 @@
 # Assignment 2: Classify
-# Assignment 2: Classify
 ## Part A
 ### abs.s
 Used "sub" instruction to negate number less than 0.
