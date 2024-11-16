@@ -166,8 +166,22 @@ classify:
     
     lw t0, 0(s3)
     lw t1, 0(s8)
-    mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation 
+    # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation 
     
+    li a0,0
+
+mul_loop_start1:
+    beq t1, zero, mul_loop_end1
+    andi t6, t1, 1
+    beq t6, zero, mul_loop_handle1
+    add a0, t0, a0
+
+mul_loop_handle1:
+    slli t0, t0, 1
+    srli t1, t1, 1
+    j mul_loop_start1
+
+mul_loop_end1:   
     # mv a0, t0
     # mv a1, t1
     # jal  mul
@@ -207,7 +221,22 @@ classify:
     mv a0, s9 # move h to the first argument
     lw t0, 0(s3)
     lw t1, 0(s8)
-    mul a1, t0, t1 # length of h array and set it as second argument
+    # mul a1, t0, t1 # length of h array and set it as second argument
+    
+    li a1,0
+
+mul_loop_start2:
+    beq t1, zero, mul_loop_end2
+    andi t6, t1, 1
+    beq t6, zero, mul_loop_handle2
+    add a1, a1, t0
+
+mul_loop_handle2:
+    slli t0, t0, 1
+    srli t1, t1, 1
+    j mul_loop_start2
+
+mul_loop_end2:   
     # FIXME: Replace 'mul' with your own implementation
     # mv a0, t0
     # mv a1, t1
@@ -233,8 +262,24 @@ classify:
     
     lw t0, 0(s3)
     lw t1, 0(s6)
-    mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
-    # mv a0, t0
+    # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+
+    li a0,0
+
+mul_loop_start3:
+    beq t1, zero, mul_loop_end3
+    andi t6, t1, 1
+    beq t6, zero, mul_loop_handle3
+    add a0, a0, t0
+
+mul_loop_handle3:
+    slli t0, t0, 1
+    srli t1, t1, 1
+    j mul_loop_start3
+
+mul_loop_end3: 
+    
+   # mv a0, t0
     # mv a1, t1
     # jal mul
     slli a0, a0, 2
@@ -302,7 +347,20 @@ classify:
     # jal mul
     # mv a1, a0
     # FIXME: Replace 'mul' with your own implementation
-    
+    li a1,0
+
+mul_loop_start4:
+    beq t1, zero, mul_loop_end4
+    andi t6, t1, 1
+    beq t6, zero, mul_loop_handle4
+    add a1, a1, t0
+
+mul_loop_handle4:
+    slli t0, t0, 1
+    srli t1, t1, 1
+    j mul_loop_start4
+
+mul_loop_end4:    
     jal argmax
     
     mv t0, a0 # move return value of argmax into t0
@@ -398,33 +456,4 @@ error_args:
 error_malloc:
     li a0, 26
     j exit
-mul:
-    # prolouge
-    addi    sp, sp, -16
-    sw      s0, 12(sp)
-    sw      s1, 8(sp)
-    sw      s2, 4(sp)
-    sw      s3, 0(sp)
 
-    li      s0, 0 # store shifted a0
-    li      s1, 0 # ans
-    li      s2, 0 # counter
-mul_loop:
-    beq     a1, zero, epi
-    andi    s3, a1, 1
-    beq     s3, zero, next_iter_mul
-    sll     s0, a0, s2
-    add     s1, s1, s0
-next_iter_mul:
-    srli    a1, a1, 1
-    addi    s2, s2, 1
-    j       mul_loop
-epi:
-    # epilouge
-    mv      a0, s1
-    lw      s0, 12(sp)
-    lw      s1, 8(sp)
-    lw      s2, 4(sp)
-    lw      s3, 0(sp)
-    addi    sp, sp, 16
-    jr      ra
